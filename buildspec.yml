@@ -12,6 +12,6 @@ phases:
     commands:
       - AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
       - AWS_REGION=eu-west-1
-      - COMPONENT_NAME=$(cat gdk-config.json | jq -r '.component | keys[]')
+      # - COMPONENT_NAME=$(cat gdk-config.json | jq -r '.component | keys[]')
       - chmod +x ./deploy-components.sh
       - sh -x ./deploy-components.sh ${AWS_ACCOUNT_ID} ${AWS_REGION} ${COMPONENT_NAME} ${IOT_THING_GROUP} ${DEPLOYMENT_NAME}

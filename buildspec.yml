@@ -3,6 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
+      - echo "https://awscli.amazonaws.com/awscli-exe-linux-$ARCH.zip"
       - curl "https://awscli.amazonaws.com/awscli-exe-linux-$ARCH.zip" -o "awscliv2.zip"
       - unzip awscliv2.zip
       - ./aws/install -i /usr/local/aws-cli -b /usr/local/bin --update

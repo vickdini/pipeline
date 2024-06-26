@@ -1,25 +1,16 @@
 version: 0.2
 
 phases:
-  pre_build:
+  install:
     commands:
-      - echo Logging in to Amazon ECR...
-      - aws --version
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
+      - curl "https://awscli.amazonaws.com/awscli-exe-linux-$ARCH.zip" -o "awscliv2.zip"
+      - unzip awscliv2.zip
+      - ./aws/install -i /usr/local/aws-cli -b /usr/local/bin --update
+      - curl "https://pipescript.s3.eu-west-1.amazonaws.com/deploy-components.sh" -o "deploy-components.sh"
   build:
     commands:
-      - echo Build started on `date`
-      - echo Building the Docker image...
-      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
-      - docker tag $REPOSITORY_URI:$IMAGE_TAG $REPOSITORY_URI:$IMAGE_TAG
-  post_build:
-    commands:
-      - echo Build completed on `date`
-      - echo Pushing the Docker images...
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - echo Writing image definitions file...
-      - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
-
-artifacts:
-    files: imagedefinitions.json
+      - AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+      - AWS_REGION=ap-northeast-1
+      - COMPONENT_NAME=$(cat gdk-config.json | jq -r '.component | keys[]’)
+      - chmod +x ./deploy-components.sh
+      - sh -x ./deploy-components.sh ${AWS_ACCOUNT_ID} ${AWS_REGION} ${COMPONENT_NAME} ${IOT_THING_GROUP} ${DEPLOYMENT_NAME}

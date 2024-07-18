@@ -5,14 +5,6 @@
         "com.example.hello": {
             "componentVersion": "LATEST",
             "runWith": {}
-        },
-        "com.example.world": {
-            "componentVersion": "LATEST",
-            "runWith": {}
-        },
-        "com.example.pub": {
-            "componentVersion": "LATEST",
-            "runWith": {}
         }
     },
     "deploymentPolicies": {

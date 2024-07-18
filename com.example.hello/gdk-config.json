@@ -7,7 +7,7 @@
           "build_system": "zip"
         },
         "publish": {
-          "bucket": "greengrass-component-artifacts",
+          "bucket": "pipescript",
           "region": "eu-west-1"
         }
       }

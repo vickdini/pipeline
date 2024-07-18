@@ -8,12 +8,13 @@ phases:
       - ./aws/install -i /usr/local/aws-cli -b /usr/local/bin --update
       - pip3 install git+https://github.com/aws-greengrass/aws-greengrass-gdk-cli.git@v1.6.2
       - curl "https://pipescript.s3.eu-west-1.amazonaws.com/deploy-components.sh" -o "deploy-components.sh"
-      - cd com.example.hello
   build:
     commands:
       - AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
       - AWS_REGION=eu-west-1
+      - cd com.example.hello
       - gdk component build
       - gdk component publish
+      - cd ..
       - chmod +x ./deploy-components.sh
       - sh -x ./deploy-components.sh ${AWS_ACCOUNT_ID} ${AWS_REGION} ${COMPONENT_NAME} ${THING_GROUP_ARN} ${DEPLOYMENT_NAME}

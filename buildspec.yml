@@ -16,5 +16,5 @@ phases:
       - gdk component build
       - gdk component publish --bucket pipescript --region ${AWS_REGION}
       - cd ..
-      - chmod +x ./deploy-components.sh
-      - sh -x ./deploy-components.sh ${AWS_ACCOUNT_ID} ${AWS_REGION} ${COMPONENT_NAME} ${THING_GROUP_ARN} ${DEPLOYMENT_NAME}
+#     - chmod +x ./deploy-components.sh
+#     - sh -x ./deploy-components.sh ${AWS_ACCOUNT_ID} ${AWS_REGION} ${COMPONENT_NAME} ${THING_GROUP_ARN} ${DEPLOYMENT_NAME}
